@@ -253,11 +253,17 @@ body>main>* {
    need the room, prose does not. */
 body>main>.wide,
 body>main>figure,
-body>main>.swatches,
 body>main>.cards,
 body>main>.typefaces,
 body>main>.table-wrap {
   max-width: none;
+}
+
+/* Swatches deliberately stay within the text measure. Letting them break out
+   made the grid sprawl to ~1470px on a wide screen while every other block
+   stopped around 850px, so the row read as overflowing the page. */
+body>main>.swatches {
+  max-width: var(--measure);
 }
 
 /* --------------------------------------------------------------------------
@@ -668,10 +674,15 @@ var {
 /* Each swatch is its own panel rather than a cell in one bordered grid.
    A single grid meant a part-filled last row left empty lit cells inside
    the frame; separate chips just stop where the content does. */
+/* auto-fit rather than auto-fill: a part-filled row stretches to fill the
+   width instead of leaving phantom tracks. The min() keeps a single chip from
+   forcing overflow on a very narrow screen, where 7rem may exceed the column.
+   ~7rem lets six swatches — a full palette — sit on one row at desktop, and
+   degrades to three, then two, as the measure narrows. */
 .swatches {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 5.5rem), 1fr));
+  gap: 0.625rem;
   margin: 1.75rem 0 0;
 }
 
@@ -683,23 +694,31 @@ var {
   overflow: hidden;
 }
 
+/* Height follows the chip's own width, not the viewport. Tying it to vw made
+   a six-across row render as tall narrow bars on a wide screen. */
 .swatches>figure>.chip {
   display: block;
-  height: 5.5rem;
+  aspect-ratio: 3 / 2;
+  min-height: 2.75rem;
   background: var(--c, var(--surface));
 }
 
 .swatches>figure>figcaption {
   margin: 0;
-  padding: 0.625rem 0.75rem 0.75rem;
-  line-height: 1.45;
+  padding: 0.5rem 0.625rem 0.625rem;
+  line-height: 1.4;
 }
 
 .swatches .name {
   display: block;
   font-family: var(--font-body);
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--text);
+  /* Six-across leaves ~92px of caption; at the previous size "Background"
+     broke mid-word. Never hyphenate a token name — it reads as a typo. */
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
 }
 
 .swatches .hex {
