@@ -1,0 +1,14 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Nothing here is built or installed — there is no node_modules, no lockfile
+# and no dist. If any of those appear, something has gone wrong with the
+# "no build step" premise rather than needing an ignore rule.
