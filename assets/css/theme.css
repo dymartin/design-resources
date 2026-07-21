@@ -30,12 +30,18 @@
    -------------------------------------------------------------------------- */
 
 :root {
-  --bg:      #0f1117;   /* page background */
-  --surface: #171923;   /* sidebar, cards, code blocks, form fields */
-  --border:  #262a38;   /* hairlines and dividers */
-  --text:    #e2e4ed;   /* body copy and headings */
-  --muted:   #9ba1b4;   /* captions, metadata, labels */
-  --accent:  #7aa2f7;   /* links, active nav, focus rings */
+  --bg: #0a0c12;
+  /* page background — the deepest plane */
+  --surface: #161a26;
+  /* sidebar, panels, code blocks, form fields */
+  --border: #2b3143;
+  /* hairlines and dividers */
+  --text: #e2e4ed;
+  /* body copy and headings */
+  --muted: #9ba1b4;
+  /* captions, metadata, labels */
+  --accent: #7aa2f7;
+  /* links, active nav, focus rings */
 }
 
 /* --------------------------------------------------------------------------
@@ -130,17 +136,21 @@ html[data-theme="dark"] {
 
 :root {
   --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
-                  "Times New Roman", serif;
+    "Times New Roman", serif;
   --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-               Arial, sans-serif;
+    Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", "Cascadia Mono",
-               "Segoe UI Mono", Menlo, Consolas, monospace;
+    "Segoe UI Mono", Menlo, Consolas, monospace;
 
   --sidebar-width: 15.5rem;
-  --measure: 68ch;              /* comfortable line length for prose */
+  --measure: 68ch;
+  /* comfortable line length for prose */
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -148,14 +158,43 @@ h1, h2, h3, h4 {
   text-wrap: balance;
 }
 
-h1 { font-size: 2.25rem; margin-bottom: 0.5rem; }
-h2 { font-size: 1.5rem;  margin-top: 3rem; }
-h3 { font-size: 1.175rem; margin-top: 2.25rem; }
-h4 { font-size: 1rem; margin-top: 2rem; }
+h1 {
+  font-size: 2.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Section headings carry the same underline device as the sidebar's section
+   label, so "a rule beneath small caps or a title" reads as "new section"
+   everywhere on the site. Without it, consecutive sections ran together —
+   the heading alone was not enough separation. */
+main h2 {
+  font-size: 1.5rem;
+  margin-top: 4.5rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* The first section on a page sits closer to the lede, which already
+   separates it from the title. */
+main h1+p.lede+h2 {
+  margin-top: 3rem;
+}
+
+h3 {
+  font-size: 1.175rem;
+  margin-top: 2.25rem;
+}
+
+h4 {
+  font-size: 1rem;
+  margin-top: 2rem;
+}
 
 /* h5/h6 drop out of the serif and become mono labels — at that depth they
    are almost always labelling something rather than titling a section. */
-h5, h6 {
+h5,
+h6 {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 500;
@@ -166,7 +205,7 @@ h5, h6 {
 }
 
 /* The subtitle directly under a page title. */
-h1 + p.lede {
+h1+p.lede {
   font-size: 1.125rem;
   color: var(--muted);
   max-width: 60ch;
@@ -182,30 +221,42 @@ body {
   grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
   min-height: 100vh;
   min-height: 100dvh;
+
+  /* The sidebar is sticky and only one viewport tall, so on a long page its
+     panel used to stop dead at the fold and leave bare background beneath.
+     Painting the column onto <body> instead means the panel and its divider
+     run the full height of the document, however long it gets. */
+  background:
+    linear-gradient(to right,
+      var(--surface) 0,
+      var(--surface) var(--sidebar-width),
+      var(--border) var(--sidebar-width),
+      var(--border) calc(var(--sidebar-width) + 1px),
+      var(--bg) calc(var(--sidebar-width) + 1px));
 }
 
 /* Pico's classless build treats `body > main` as a centered container with
    responsive max-widths up to 1450px and auto margins. In a sidebar layout
    that fights the grid, so it is reset here deliberately. */
-body > main {
+body>main {
   max-width: none;
   width: 100%;
   margin: 0;
   padding: 3.5rem 3rem 6rem;
 }
 
-body > main > * {
+body>main>* {
   max-width: var(--measure);
 }
 
 /* Wide content is allowed to break the measure — tables and swatch grids
    need the room, prose does not. */
-body > main > .wide,
-body > main > figure,
-body > main > .swatches,
-body > main > .cards,
-body > main > .typefaces,
-body > main > .table-wrap {
+body>main>.wide,
+body>main>figure,
+body>main>.swatches,
+body>main>.cards,
+body>main>.typefaces,
+body>main>.table-wrap {
   max-width: none;
 }
 
@@ -231,7 +282,9 @@ body > main > .table-wrap {
   padding: 0;
 }
 
-#sidebar li::before { content: none; }
+#sidebar li::before {
+  content: none;
+}
 
 #sidebar {
   position: sticky;
@@ -242,8 +295,9 @@ body > main > .table-wrap {
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 2.25rem 1.25rem 2rem;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
+  /* Panel and divider are painted by the gradient on <body> so they run the
+     full document height; the sidebar itself stays transparent. */
+  background: transparent;
   font-size: 0.9375rem;
   /* Long nav trees must scroll inside the sidebar, never widen it. */
   overflow-wrap: break-word;
@@ -275,7 +329,7 @@ body > main > .table-wrap {
   font-size: 0.875rem;
   text-decoration: none;
   transition: color 120ms ease, background-color 120ms ease,
-              border-color 120ms ease;
+    border-color 120ms ease;
 }
 
 #sidebar .home-link:hover {
@@ -307,7 +361,9 @@ body > main > .table-wrap {
 }
 
 /* Any section after the first needs air above it. */
-#sidebar ul + h2 { margin-top: 2.25rem; }
+#sidebar ul+h2 {
+  margin-top: 2.25rem;
+}
 
 #sidebar ul {
   list-style: none;
@@ -331,7 +387,9 @@ body > main > .table-wrap {
   transition: color 120ms ease, background-color 120ms ease;
 }
 
-#sidebar ul[data-depth="1"] > li + li { margin-top: 0.25rem; }
+#sidebar ul[data-depth="1"]>li+li {
+  margin-top: 0.25rem;
+}
 
 #sidebar ul a:hover {
   background: color-mix(in srgb, var(--accent) 10%, transparent);
@@ -353,7 +411,9 @@ body > main > .table-wrap {
   border-left: 1px solid var(--border);
 }
 
-#sidebar ul[data-depth="2"] > li + li { margin-top: 0.5rem; }
+#sidebar ul[data-depth="2"]>li+li {
+  margin-top: 0.5rem;
+}
 
 #sidebar ul[data-depth="2"] a {
   padding-block: 0.375rem;
@@ -362,7 +422,9 @@ body > main > .table-wrap {
   color: var(--muted);
 }
 
-#sidebar ul[data-depth="2"] a:hover { color: var(--accent); }
+#sidebar ul[data-depth="2"] a:hover {
+  color: var(--accent);
+}
 
 /* "location" rather than "page": same page, different section. */
 #sidebar ul[data-depth="2"] a[aria-current="location"] {
@@ -376,9 +438,15 @@ body > main > .table-wrap {
   padding-left: 0.875rem;
   border-left: 1px solid var(--border);
 }
-#sidebar ul[data-depth="3"] a { font-size: 0.8125rem; color: var(--muted); }
 
-#menu-toggle { display: none; }
+#sidebar ul[data-depth="3"] a {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+#menu-toggle {
+  display: none;
+}
 
 /* --------------------------------------------------------------------------
    6. Element coverage
@@ -395,8 +463,14 @@ main a {
   text-underline-offset: 0.15em;
   transition: color 120ms ease, text-decoration-color 120ms ease;
 }
-main a:hover { text-decoration-color: var(--accent); }
-main a:visited { color: color-mix(in srgb, var(--accent) 78%, var(--muted)); }
+
+main a:hover {
+  text-decoration-color: var(--accent);
+}
+
+main a:visited {
+  color: color-mix(in srgb, var(--accent) 78%, var(--muted));
+}
 
 /* One consistent, always-visible focus ring. */
 :focus-visible {
@@ -412,17 +486,45 @@ main a:visited { color: color-mix(in srgb, var(--accent) 78%, var(--muted)); }
   box-shadow: -0.5rem 0 0 color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
-ul, ol { padding-left: 1.25rem; }
-li::marker { color: var(--muted); }
-li + li { margin-top: 0.25rem; }
+ul,
+ol {
+  padding-left: 1.25rem;
+}
 
-dl { display: grid; grid-template-columns: minmax(6rem, auto) 1fr; gap: 0.4rem 1.5rem; }
-dt { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); }
-dd { margin: 0; }
+li::marker {
+  color: var(--muted);
+}
+
+li+li {
+  margin-top: 0.25rem;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: minmax(6rem, auto) 1fr;
+  gap: 0.4rem 1.5rem;
+}
+
+dt {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+dd {
+  margin: 0;
+}
 
 /* Tables scroll inside themselves rather than pushing the page sideways. */
-.table-wrap, figure:has(> table) { overflow-x: auto; }
-table { font-size: 0.9375rem; }
+.table-wrap,
+figure:has(> table) {
+  overflow-x: auto;
+}
+
+table {
+  font-size: 0.9375rem;
+}
+
 thead th {
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -431,7 +533,10 @@ thead th {
   text-transform: uppercase;
   color: var(--muted);
 }
-tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+
+tbody tr:hover {
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
 
 blockquote {
   border-left: 2px solid var(--accent);
@@ -439,9 +544,15 @@ blockquote {
   font-style: normal;
   color: var(--muted);
 }
-blockquote p:last-child { margin-bottom: 0; }
 
-figure { margin: 2rem 0; }
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+figure {
+  margin: 2rem 0;
+}
+
 figcaption {
   margin-top: 0.625rem;
   font-family: var(--font-mono);
@@ -449,10 +560,25 @@ figcaption {
   color: var(--muted);
 }
 
-hr { border: 0; border-top: 1px solid var(--border); margin: 3rem 0; }
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
 
-img, video, canvas, svg { max-width: 100%; height: auto; }
-iframe { max-width: 100%; border: 1px solid var(--border); border-radius: 4px; }
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+iframe {
+  max-width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
 
 details {
   border: 1px solid var(--border);
@@ -460,14 +586,37 @@ details {
   padding: 0.875rem 1rem;
   background: var(--surface);
 }
-details summary { font-weight: 500; }
-details[open] summary { margin-bottom: 0.75rem; }
 
-abbr[title] { text-decoration-color: var(--muted); cursor: help; }
-small { color: var(--muted); }
-mark { padding: 0.05em 0.25em; border-radius: 2px; }
-ins { text-decoration-color: var(--muted); }
-sup, sub { font-size: 0.7em; }
+details summary {
+  font-weight: 500;
+}
+
+details[open] summary {
+  margin-bottom: 0.75rem;
+}
+
+abbr[title] {
+  text-decoration-color: var(--muted);
+  cursor: help;
+}
+
+small {
+  color: var(--muted);
+}
+
+mark {
+  padding: 0.05em 0.25em;
+  border-radius: 2px;
+}
+
+ins {
+  text-decoration-color: var(--muted);
+}
+
+sup,
+sub {
+  font-size: 0.7em;
+}
 
 /* --------------------------------------------------------------------------
    7. Components
@@ -483,43 +632,64 @@ pre {
   font-size: 0.875rem;
   line-height: 1.6;
 }
-pre > code { display: block; background: none; padding: 0; color: var(--text); }
-:not(pre) > code {
+
+pre>code {
+  display: block;
+  background: none;
+  padding: 0;
+  color: var(--text);
+}
+
+:not(pre)>code {
   font-size: 0.875em;
   padding: 0.15em 0.4em;
   border: 1px solid var(--border);
   border-radius: 3px;
 }
-kbd { font-size: 0.8125em; }
-samp { font-family: var(--font-mono); color: var(--muted); }
-var  { font-family: var(--font-mono); font-style: normal; color: var(--accent); }
+
+kbd {
+  font-size: 0.8125em;
+}
+
+samp {
+  font-family: var(--font-mono);
+  color: var(--muted);
+}
+
+var {
+  font-family: var(--font-mono);
+  font-style: normal;
+  color: var(--accent);
+}
 
 /* Swatches. Colours are passed inline as --c, so adding one is a line of
    HTML with no CSS edit. Hex values sit in mono and stay selectable,
    because copying them is the actual job here. */
+/* Each swatch is its own panel rather than a cell in one bordered grid.
+   A single grid meant a part-filled last row left empty lit cells inside
+   the frame; separate chips just stop where the content does. */
 .swatches {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
-  gap: 1px;
-  margin: 2rem 0;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-  background: var(--border);   /* becomes the 1px hairlines between cells */
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 0.75rem;
+  margin: 1.75rem 0 0;
 }
 
-.swatches > figure {
+.swatches>figure {
   margin: 0;
   background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
 }
 
-.swatches > figure > .chip {
+.swatches>figure>.chip {
   display: block;
   height: 5.5rem;
   background: var(--c, var(--surface));
 }
 
-.swatches > figure > figcaption {
+.swatches>figure>figcaption {
   margin: 0;
   padding: 0.625rem 0.75rem 0.75rem;
   line-height: 1.45;
@@ -538,7 +708,8 @@ var  { font-family: var(--font-mono); font-style: normal; color: var(--accent); 
   font-size: 0.75rem;
   color: var(--muted);
   text-transform: uppercase;
-  user-select: all;            /* one click selects the whole value */
+  user-select: all;
+  /* one click selects the whole value */
 }
 
 /* Typeface specimens. The face itself is passed inline as --f, so adding one
@@ -546,16 +717,24 @@ var  { font-family: var(--font-mono); font-style: normal; color: var(--accent); 
    dividers rather than boxes, so nothing competes with the type. */
 .typefaces {
   list-style: none;
-  margin: 2rem 0;
+  margin: 1.75rem 0 0;
   padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
 }
 
-.typefaces > li {
+.typefaces>li {
   margin: 0;
-  padding: 1.5rem 0;
+  padding: 1.5rem 1.125rem;
+  list-style: none;
+  /* see .cards > li — Pico sets list-style on the li itself */
+}
+
+.typefaces>li+li {
   border-top: 1px solid var(--border);
 }
-.typefaces > li:last-child { border-bottom: 1px solid var(--border); }
 
 .typefaces .face {
   display: block;
@@ -573,7 +752,10 @@ var  { font-family: var(--font-mono); font-style: normal; color: var(--accent); 
 .typefaces .sample {
   display: block;
   margin: 0;
-  font-family: var(--f, var(--font-body));
+  /* --font-body is appended as a real fallback: a bare `font-family: "Inter"`
+     drops to the browser default (Times) if the file is missing, which looks
+     like a deliberate serif rather than a broken specimen. */
+  font-family: var(--f, var(--font-body)), var(--font-body);
   font-size: clamp(1.375rem, 3.5vw, 1.875rem);
   font-weight: 400;
   line-height: 1.25;
@@ -582,38 +764,64 @@ var  { font-family: var(--font-mono); font-style: normal; color: var(--accent); 
 }
 
 /* Resource cards — a list, not a grid of shadowed tiles. */
-.cards { list-style: none; margin: 2rem 0; padding: 0; }
+.cards {
+  list-style: none;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  /* A panel on the darker page background, so a section's content reads as
+     one block rather than as loose rules floating in space. */
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
 
-.cards > li {
+.cards>li {
   margin: 0;
+  /* Pico sets `list-style: square` on li itself, which the ul's
+     `list-style: none` does not override. Without this, every card shows a
+     stray bullet. */
+  list-style: none;
+}
+
+.cards>li+li {
   border-top: 1px solid var(--border);
 }
-.cards > li:last-child { border-bottom: 1px solid var(--border); }
 
 .cards a.card {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 0.25rem 1.5rem;
   align-items: baseline;
-  padding: 1rem 0.75rem 1rem 0;
+  padding: 1rem 1.125rem;
   text-decoration: none;
   color: var(--text);
-  transition: background-color 120ms ease, padding-left 120ms ease;
+  /* A left edge that appears on hover, rather than shifting the text — the
+     old padding animation nudged content sideways on every pass. */
+  box-shadow: inset 2px 0 0 transparent;
+  transition: background-color 120ms ease, box-shadow 120ms ease;
 }
 
 .cards a.card:hover {
-  background: color-mix(in srgb, var(--accent) 7%, transparent);
-  padding-left: 0.75rem;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  box-shadow: inset 2px 0 0 var(--accent);
 }
-.cards a.card:hover .title { color: var(--accent); }
 
-.cards .title { font-weight: 500; }
+.cards a.card:hover .title {
+  color: var(--accent);
+}
+
+.cards .title {
+  font-weight: 500;
+}
+
 .cards .host {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--muted);
   justify-self: end;
 }
+
 .cards .desc {
   grid-column: 1 / -1;
   margin: 0;
@@ -627,7 +835,16 @@ var  { font-family: var(--font-mono); font-style: normal; color: var(--accent); 
    -------------------------------------------------------------------------- */
 
 @media (max-width: 720px) {
-  body { grid-template-columns: 1fr; }
+  body {
+    grid-template-columns: 1fr;
+    /* Single column: no sidebar track to paint. */
+    background: var(--bg);
+  }
+
+  #sidebar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
 
   #menu-toggle {
     display: block;
@@ -650,20 +867,37 @@ var  { font-family: var(--font-mono); font-style: normal; color: var(--accent); 
     border-bottom: 1px solid var(--border);
     padding-top: 1rem;
   }
-  #sidebar[data-open] { display: block; }
 
-  body > main { padding: 1.5rem 1.25rem 4rem; }
+  #sidebar[data-open] {
+    display: block;
+  }
+
+  body>main {
+    padding: 1.5rem 1.25rem 4rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
 }
 
 @media print {
-  body { display: block; }
-  #sidebar, #menu-toggle { display: none; }
-  body > main { padding: 0; }
+  body {
+    display: block;
+  }
+
+  #sidebar,
+  #menu-toggle {
+    display: none;
+  }
+
+  body>main {
+    padding: 0;
+  }
 }
