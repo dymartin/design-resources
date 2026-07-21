@@ -1,0 +1,622 @@
+/* ==========================================================================
+   theme.css — the entire look of the site.
+
+   Loaded after vendor/pico.classless.min.css. Pico handles baseline styling
+   of every semantic element; this file supplies the palette, the sidebar
+   layout, typography with actual character, and two content components.
+
+   Structure:
+     1. Palette           — six tokens
+     2. Pico binding      — map tokens onto Pico's --pico-* variables
+     3. Typography        — three type roles
+     4. Layout            — sidebar + main grid
+     5. Sidebar
+     6. Element coverage  — everything vanilla HTML can throw at us
+     7. Components        — swatches, resource cards, code
+     8. Responsive
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Palette
+
+   Cool slate with a single blue accent. Six tokens is the whole palette:
+   enough to theme the site, few enough to hold in your head.
+
+   To retheme the site, change these six values and nothing else. Every
+   --pico-* variable below is bound to them.
+
+   Contrast against --bg: text 14.9:1, muted 7.3:1, accent 7.5:1.
+   Keep muted above 4.5:1 if you change it — it carries real content.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --bg:      #0f1117;   /* page background */
+  --surface: #171923;   /* sidebar, cards, code blocks, form fields */
+  --border:  #262a38;   /* hairlines and dividers */
+  --text:    #e2e4ed;   /* body copy and headings */
+  --muted:   #9ba1b4;   /* captions, metadata, labels */
+  --accent:  #7aa2f7;   /* links, active nav, focus rings */
+}
+
+/* --------------------------------------------------------------------------
+   2. Pico binding
+
+   Pico's dark theme sets 96 variables. Only the ones carrying colour
+   identity need redirecting; the rest inherit sensible dark defaults.
+   `data-theme="dark"` is Pico's own switch and is pinned on every page.
+   -------------------------------------------------------------------------- */
+
+html[data-theme="dark"] {
+  --pico-background-color: var(--bg);
+  --pico-color: var(--text);
+  --pico-muted-color: var(--muted);
+  --pico-muted-border-color: var(--border);
+  --pico-text-selection-color: color-mix(in srgb, var(--accent) 30%, transparent);
+
+  /* Links and anything "primary" */
+  --pico-primary: var(--accent);
+  --pico-primary-background: var(--accent);
+  --pico-primary-border: var(--accent);
+  --pico-primary-underline: color-mix(in srgb, var(--accent) 40%, transparent);
+  --pico-primary-hover: color-mix(in srgb, var(--accent) 80%, white);
+  --pico-primary-hover-background: color-mix(in srgb, var(--accent) 80%, white);
+  --pico-primary-hover-border: var(--pico-primary-hover-background);
+  --pico-primary-hover-underline: var(--pico-primary-hover);
+  --pico-primary-focus: color-mix(in srgb, var(--accent) 45%, transparent);
+  --pico-primary-inverse: var(--bg);
+
+  /* Headings read as one voice rather than Pico's six-step grey ramp */
+  --pico-h1-color: var(--text);
+  --pico-h2-color: var(--text);
+  --pico-h3-color: var(--text);
+  --pico-h4-color: var(--text);
+  --pico-h5-color: var(--muted);
+  --pico-h6-color: var(--muted);
+
+  /* Surfaces */
+  --pico-card-background-color: var(--surface);
+  --pico-card-sectioning-background-color: var(--surface);
+  --pico-card-border-color: var(--border);
+  --pico-code-background-color: var(--surface);
+  --pico-code-color: var(--text);
+  --pico-code-kbd-background-color: var(--text);
+  --pico-code-kbd-color: var(--bg);
+  --pico-blockquote-border-color: var(--accent);
+  --pico-blockquote-footer-color: var(--muted);
+  --pico-table-border-color: var(--border);
+  --pico-table-row-stripped-background-color: color-mix(in srgb, var(--surface) 55%, transparent);
+  --pico-mark-background-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  --pico-mark-color: var(--text);
+
+  /* Forms */
+  --pico-form-element-background-color: var(--surface);
+  --pico-form-element-border-color: var(--border);
+  --pico-form-element-color: var(--text);
+  --pico-form-element-placeholder-color: var(--muted);
+  --pico-form-element-active-background-color: var(--surface);
+  --pico-form-element-active-border-color: var(--accent);
+  --pico-form-element-focus-color: var(--accent);
+  --pico-switch-checked-background-color: var(--accent);
+  --pico-range-thumb-color: var(--accent);
+  --pico-accordion-border-color: var(--border);
+  --pico-accordion-open-summary-color: var(--text);
+  --pico-accordion-close-summary-color: var(--text);
+  --pico-progress-color: var(--accent);
+
+  /* Flat by design. Shadows are the fastest route to SaaS-template drift. */
+  --pico-box-shadow: none;
+  --pico-card-box-shadow: none;
+
+  --pico-border-radius: 4px;
+  --pico-spacing: 1rem;
+
+  --pico-font-family: var(--font-body);
+  --pico-font-family-monospace: var(--font-mono);
+  --pico-line-height: 1.65;
+}
+
+/* --------------------------------------------------------------------------
+   3. Typography — three roles, zero downloads
+
+   No webfonts: the repo stays self-contained and nothing blocks first paint.
+   Character comes from pairing rather than from exotic files.
+
+     display — a serif, for headings. Reads as a reference book, not a SaaS
+               dashboard, which is the whole point.
+     body    — the system UI sans, for prose. Invisible on purpose.
+     mono    — the spec vernacular. This library is full of hex values,
+               sizes and ratios; those are data and should look like data.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+                  "Times New Roman", serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+               Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", "Cascadia Mono",
+               "Segoe UI Mono", Menlo, Consolas, monospace;
+
+  --sidebar-width: 15.5rem;
+  --measure: 68ch;              /* comfortable line length for prose */
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+h1 { font-size: 2.25rem; margin-bottom: 0.5rem; }
+h2 { font-size: 1.5rem;  margin-top: 3rem; }
+h3 { font-size: 1.175rem; margin-top: 2.25rem; }
+h4 { font-size: 1rem; margin-top: 2rem; }
+
+/* h5/h6 drop out of the serif and become mono labels — at that depth they
+   are almost always labelling something rather than titling a section. */
+h5, h6 {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 2rem;
+}
+
+/* The subtitle directly under a page title. */
+h1 + p.lede {
+  font-size: 1.125rem;
+  color: var(--muted);
+  max-width: 60ch;
+  margin-bottom: 2.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   4. Layout
+   -------------------------------------------------------------------------- */
+
+body {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Pico's classless build treats `body > main` as a centered container with
+   responsive max-widths up to 1450px and auto margins. In a sidebar layout
+   that fights the grid, so it is reset here deliberately. */
+body > main {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 3.5rem 3rem 6rem;
+}
+
+body > main > * {
+  max-width: var(--measure);
+}
+
+/* Wide content is allowed to break the measure — tables and swatch grids
+   need the room, prose does not. */
+body > main > .wide,
+body > main > figure,
+body > main > .swatches,
+body > main > .cards,
+body > main > .table-wrap {
+  max-width: none;
+}
+
+/* --------------------------------------------------------------------------
+   5. Sidebar
+   -------------------------------------------------------------------------- */
+
+/* Pico styles <nav> as a horizontal bar: `nav, nav ul { display: flex }`,
+   `nav { justify-content: space-between }`, `nav li { display: inline-block }`
+   and a floated zero-width-space on `nav li::before`. All correct for a top
+   bar, all wrong for a vertical sidebar — without these resets the nav lays
+   out as one overflowing row. (Pico's own escape hatch is to wrap it in
+   <aside>; overriding here keeps <nav> as the landmark element.) */
+#sidebar,
+#sidebar ul,
+#sidebar ol {
+  display: block;
+}
+
+#sidebar li {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#sidebar li::before { content: none; }
+
+#sidebar {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 2.25rem 1.25rem 2rem;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  font-size: 0.9375rem;
+  /* Long nav trees must scroll inside the sidebar, never widen it. */
+  overflow-wrap: break-word;
+}
+
+/* The site title is a label, not a link — Home does the navigating. */
+#sidebar .brand {
+  margin: 0 0 1.25rem;
+  color: var(--text);
+}
+
+#sidebar .brand strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Home reads as a control rather than another list item, since it sits
+   outside the section groups. */
+#sidebar .home-link {
+  display: block;
+  margin-bottom: 2rem;
+  padding: 0.4375rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 120ms ease, background-color 120ms ease,
+              border-color 120ms ease;
+}
+
+#sidebar .home-link:hover {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  color: var(--accent);
+}
+
+#sidebar .home-link[aria-current="page"] {
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Section heading — a label, not a link. Sits above its group with a rule
+   beneath it, so the heading reads as owning the list rather than floating
+   between the brand and the links. */
+#sidebar h2 {
+  margin: 0 0 0.875rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Any section after the first needs air above it. */
+#sidebar ul + h2 { margin-top: 2.25rem; }
+
+#sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#sidebar ul a {
+  display: block;
+  padding: 0.375rem 0.625rem;
+  margin-left: -0.625rem;
+  border-radius: 4px;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+
+#sidebar ul[data-depth="1"] > li + li { margin-top: 0.125rem; }
+
+#sidebar ul a:hover {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+}
+
+/* aria-current is the accessibility signal and the styling hook at once. */
+#sidebar ul a[aria-current="page"] {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+  font-weight: 500;
+}
+
+/* Subsections (depth 2+) — indented under their parent with a guide rule,
+   set smaller and muted so the page level stays dominant. */
+#sidebar ul[data-depth="2"] {
+  margin: 0.375rem 0 1rem 0.5rem;
+  padding-left: 0.875rem;
+  border-left: 1px solid var(--border);
+}
+
+#sidebar ul[data-depth="2"] > li + li { margin-top: 0.0625rem; }
+
+#sidebar ul[data-depth="2"] a {
+  padding-block: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+#sidebar ul[data-depth="2"] a:hover { color: var(--accent); }
+
+/* "location" rather than "page": same page, different section. */
+#sidebar ul[data-depth="2"] a[aria-current="location"] {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+/* Depth 3 and beyond, should the tree ever grow that deep. */
+#sidebar ul[data-depth="3"] {
+  margin: 0.25rem 0 0.5rem 0.5rem;
+  padding-left: 0.875rem;
+  border-left: 1px solid var(--border);
+}
+#sidebar ul[data-depth="3"] a { font-size: 0.8125rem; color: var(--muted); }
+
+#menu-toggle { display: none; }
+
+/* --------------------------------------------------------------------------
+   6. Element coverage
+
+   Pico covers most of this. What follows either corrects Pico for a dark
+   documentation context or handles elements it leaves at browser defaults,
+   so that any stock HTML looks deliberate. See kitchen-sink.html.
+   -------------------------------------------------------------------------- */
+
+/* Links: underline in prose (scannable), not in navigation. */
+main a {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-underline-offset: 0.15em;
+  transition: color 120ms ease, text-decoration-color 120ms ease;
+}
+main a:hover { text-decoration-color: var(--accent); }
+main a:visited { color: color-mix(in srgb, var(--accent) 78%, var(--muted)); }
+
+/* One consistent, always-visible focus ring. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Anchored headings: a brief highlight so deep links land visibly. */
+:target {
+  scroll-margin-top: 2rem;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  box-shadow: -0.5rem 0 0 color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+ul, ol { padding-left: 1.25rem; }
+li::marker { color: var(--muted); }
+li + li { margin-top: 0.25rem; }
+
+dl { display: grid; grid-template-columns: minmax(6rem, auto) 1fr; gap: 0.4rem 1.5rem; }
+dt { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); }
+dd { margin: 0; }
+
+/* Tables scroll inside themselves rather than pushing the page sideways. */
+.table-wrap, figure:has(> table) { overflow-x: auto; }
+table { font-size: 0.9375rem; }
+thead th {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+
+blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.25rem;
+  font-style: normal;
+  color: var(--muted);
+}
+blockquote p:last-child { margin-bottom: 0; }
+
+figure { margin: 2rem 0; }
+figcaption {
+  margin-top: 0.625rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+hr { border: 0; border-top: 1px solid var(--border); margin: 3rem 0; }
+
+img, video, canvas, svg { max-width: 100%; height: auto; }
+iframe { max-width: 100%; border: 1px solid var(--border); border-radius: 4px; }
+
+details {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.875rem 1rem;
+  background: var(--surface);
+}
+details summary { font-weight: 500; }
+details[open] summary { margin-bottom: 0.75rem; }
+
+abbr[title] { text-decoration-color: var(--muted); cursor: help; }
+small { color: var(--muted); }
+mark { padding: 0.05em 0.25em; border-radius: 2px; }
+ins { text-decoration-color: var(--muted); }
+sup, sub { font-size: 0.7em; }
+
+/* --------------------------------------------------------------------------
+   7. Components
+   -------------------------------------------------------------------------- */
+
+/* Code — deliberately monochrome. A highlighter would mean a dependency,
+   per-language classes and something else to keep current, for a library
+   whose snippets are mostly short declarations. */
+pre {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+pre > code { display: block; background: none; padding: 0; color: var(--text); }
+:not(pre) > code {
+  font-size: 0.875em;
+  padding: 0.15em 0.4em;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+kbd { font-size: 0.8125em; }
+samp { font-family: var(--font-mono); color: var(--muted); }
+var  { font-family: var(--font-mono); font-style: normal; color: var(--accent); }
+
+/* Swatches. Colours are passed inline as --c, so adding one is a line of
+   HTML with no CSS edit. Hex values sit in mono and stay selectable,
+   because copying them is the actual job here. */
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: 1px;
+  margin: 2rem 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--border);   /* becomes the 1px hairlines between cells */
+}
+
+.swatches > figure {
+  margin: 0;
+  background: var(--surface);
+}
+
+.swatches > figure > .chip {
+  display: block;
+  height: 5.5rem;
+  background: var(--c, var(--surface));
+}
+
+.swatches > figure > figcaption {
+  margin: 0;
+  padding: 0.625rem 0.75rem 0.75rem;
+  line-height: 1.45;
+}
+
+.swatches .name {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--text);
+}
+
+.swatches .hex {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  user-select: all;            /* one click selects the whole value */
+}
+
+/* Resource cards — a list, not a grid of shadowed tiles. */
+.cards { list-style: none; margin: 2rem 0; padding: 0; }
+
+.cards > li {
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+.cards > li:last-child { border-bottom: 1px solid var(--border); }
+
+.cards a.card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.25rem 1.5rem;
+  align-items: baseline;
+  padding: 1rem 0.75rem 1rem 0;
+  text-decoration: none;
+  color: var(--text);
+  transition: background-color 120ms ease, padding-left 120ms ease;
+}
+
+.cards a.card:hover {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  padding-left: 0.75rem;
+}
+.cards a.card:hover .title { color: var(--accent); }
+
+.cards .title { font-weight: 500; }
+.cards .host {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  justify-self: end;
+}
+.cards .desc {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+/* --------------------------------------------------------------------------
+   8. Responsive
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 720px) {
+  body { grid-template-columns: 1fr; }
+
+  #menu-toggle {
+    display: block;
+    width: auto;
+    margin: 0.75rem 1rem;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.875rem;
+    font-family: var(--font-mono);
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  #sidebar {
+    display: none;
+    position: static;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+  #sidebar[data-open] { display: block; }
+
+  body > main { padding: 1.5rem 1.25rem 4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  body { display: block; }
+  #sidebar, #menu-toggle { display: none; }
+  body > main { padding: 0; }
+}
