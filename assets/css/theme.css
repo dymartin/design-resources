@@ -314,17 +314,23 @@ body > main > .table-wrap {
   padding: 0;
 }
 
+/* Pico pulls nav links in with a negative vertical margin
+   (`nav li :where(a) { margin: calc(--pico-nav-link-spacing-vertical * -1) … }`),
+   which is right for a tight horizontal bar and wrong here — it silently
+   swallows ~10px of any gap set between stacked items. Reset all four sides
+   explicitly; only the left offset is wanted, to bleed the hover highlight
+   into the sidebar padding. */
 #sidebar ul a {
   display: block;
   padding: 0.375rem 0.625rem;
-  margin-left: -0.625rem;
+  margin: 0 0 0 -0.625rem;
   border-radius: 4px;
   color: var(--text);
   text-decoration: none;
   transition: color 120ms ease, background-color 120ms ease;
 }
 
-#sidebar ul[data-depth="1"] > li + li { margin-top: 0.125rem; }
+#sidebar ul[data-depth="1"] > li + li { margin-top: 0.25rem; }
 
 #sidebar ul a:hover {
   background: color-mix(in srgb, var(--accent) 10%, transparent);
@@ -346,7 +352,7 @@ body > main > .table-wrap {
   border-left: 1px solid var(--border);
 }
 
-#sidebar ul[data-depth="2"] > li + li { margin-top: 0.75rem; }
+#sidebar ul[data-depth="2"] > li + li { margin-top: 0.5rem; }
 
 #sidebar ul[data-depth="2"] a {
   padding-block: 0.375rem;
