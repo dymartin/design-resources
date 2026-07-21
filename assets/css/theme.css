@@ -346,10 +346,10 @@ body > main > .table-wrap {
   border-left: 1px solid var(--border);
 }
 
-#sidebar ul[data-depth="2"] > li + li { margin-top: 0.3125rem; }
+#sidebar ul[data-depth="2"] > li + li { margin-top: 0.75rem; }
 
 #sidebar ul[data-depth="2"] a {
-  padding-block: 0.3125rem;
+  padding-block: 0.375rem;
   font-size: 0.875rem;
   line-height: 1.45;
   color: var(--muted);
