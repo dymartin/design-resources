@@ -7,10 +7,10 @@ toc: false
 
 <ul class="cat-cards">
   {% for c in site.data.categories %}
-    <li class="cat-card">
-      <a href="{{ c.key | prepend: '/' | append: '/' | relative_url }}">
-        <span class="cat-card-title">{{ c.title }}</span>
-      </a>
-    </li>
+  <li class="cat-card">
+    <a href="{{ c.key | prepend: '/' | append: '/' | relative_url }}">
+      <span class="cat-card-title">{{ c.title }}</span>
+    </a>
+  </li>
   {% endfor %}
 </ul>

@@ -1,43 +1,89 @@
----
-# Minimal Mistakes override entrypoint. Front matter (even empty) is required
-# so Jekyll compiles this. Imports the skin + theme, then our component styles.
----
-
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}";
 @import "minimal-mistakes";
 
 /* ---- component styles (self-contained; no theme-var dependency) ---- */
 
-.home-blurb { font-size: 1.05em; opacity: .85; margin-bottom: 1.5em; }
+.home-blurb {
+  font-size: 1.05em;
+  opacity: .85;
+  margin-bottom: 1.5em;
+}
 
 .cat-cards {
-  list-style: none; margin: 0; padding: 0;
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1em;
 }
+
 .cat-card a {
-  display: block; padding: 1.1em 1.25em;
-  border: 1px solid rgba(255, 255, 255, .15); border-radius: 6px;
+  display: block;
+  padding: 1.1em 1.25em;
+  border: 1px solid rgba(255, 255, 255, .15);
+  border-radius: 6px;
   text-decoration: none;
 }
-.cat-card a:hover { border-color: rgba(255, 255, 255, .4); }
-.cat-card-title { font-weight: 600; font-size: 1.05em; }
 
-.link-list { list-style: none; margin: 0 0 1.25em; padding: 0; }
-.link-list .link {
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: .4em .75em;
-  padding: .5em 0; border-bottom: 1px solid rgba(255, 255, 255, .08);
+.cat-card a:hover {
+  border-color: rgba(255, 255, 255, .4);
 }
-.link-title { font-weight: 600; }
-.blurb { opacity: .7; }
-.tags { display: inline-flex; flex-wrap: wrap; gap: .3em; margin-left: auto; }
+
+.cat-card-title {
+  font-weight: 600;
+  font-size: 1.05em;
+}
+
+.link-list {
+  list-style: none;
+  margin: 0 0 1.25em;
+  padding: 0;
+}
+
+.link-list .link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .4em .75em;
+  padding: .5em 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+.link-title {
+  font-weight: 600;
+}
+
+.blurb {
+  opacity: .7;
+}
+
+.tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: .3em;
+  margin-left: auto;
+}
+
 .tag {
   font-family: $monospace;
-  font-size: .68em; text-transform: uppercase; letter-spacing: .5px;
-  padding: .05em .45em; border: 1px solid rgba(255, 255, 255, .2); border-radius: 4px;
+  font-size: .68em;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  padding: .05em .45em;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 4px;
   opacity: .85;
 }
-.empty { opacity: .5; font-style: italic; }
+
+.empty {
+  opacity: .5;
+  font-style: italic;
+}
 
 @media (max-width: 500px) {
-  .tags { margin-left: 0; flex-basis: 100%; }
+  .tags {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
 }
