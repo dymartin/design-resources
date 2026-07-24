@@ -8,6 +8,9 @@ url: https://dymartin.github.io
 remote_theme: mmistakes/minimal-mistakes   # pin to @x.y.z once happy
 minimal_mistakes_skin: dark
 
+atom_feed:
+  hide: true   # no RSS feed link in footer/head
+
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
