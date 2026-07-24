@@ -1,67 +1,48 @@
 title: Typography
-# Sample entries so the skins are judge-able. Replace with your real set.
+# Sample entries so the layout is judge-able. Replace with your real set.
+# Block style + quoted blurbs so commas inside a blurb are safe.
 subcategories:
   - name: Foundries
     links:
-      - {
-          title: Fontshare,
-          url: https://www.fontshare.com,
-          tags: [free, foundry],
-          blurb: quality fonts,
-          generous licenses,
-        }
-      - {
-          title: Google Fonts,
-          url: https://fonts.google.com,
-          tags: [free],
-          blurb: large open-source library,
-        }
-      - {
-          title: Klim Type Foundry,
-          url: https://klim.co.nz,
-          tags: [paid, foundry],
-          blurb: retail foundry,
-          specimen-first,
-        }
-      - {
-          title: Collletttivo,
-          url: https://www.collletttivo.it,
-          tags: [free, foundry],
-          blurb: open-source Italian type,
-        }
+      - title: Fontshare
+        url: https://www.fontshare.com
+        tags: [free, foundry]
+        blurb: "quality fonts, generous licenses"
+      - title: Google Fonts
+        url: https://fonts.google.com
+        tags: [free]
+        blurb: large open-source library
+      - title: Klim Type Foundry
+        url: https://klim.co.nz
+        tags: [paid, foundry]
+        blurb: "retail foundry, specimen-first"
+      - title: Collletttivo
+        url: https://www.collletttivo.it
+        tags: [free, foundry]
+        blurb: open-source Italian type
 
   - name: Pairing & scale
     links:
-      - {
-          title: Typescale,
-          url: https://typescale.com,
-          tags: [tool],
-          blurb: modular type-scale generator,
-        }
-      - {
-          title: Fontpair,
-          url: https://www.fontpair.co,
-          tags: [free],
-          blurb: curated Google Font pairings,
-        }
-      - {
-          title: Type Scale Clamp,
-          url: https://royalfig.github.io/fluid-typography-calculator,
-          tags: [tool],
-          blurb: fluid clamp() values,
-        }
+      - title: Typescale
+        url: https://typescale.com
+        tags: [tool]
+        blurb: modular type-scale generator
+      - title: Fontpair
+        url: https://www.fontpair.co
+        tags: [free]
+        blurb: curated Google Font pairings
+      - title: Type Scale Clamp
+        url: https://royalfig.github.io/fluid-typography-calculator
+        tags: [tool]
+        blurb: fluid clamp() values
 
   - name: Specimens & inspiration
     links:
-      - {
-          title: Fonts In Use,
-          url: https://fontsinuse.com,
-          tags: [reference],
-          blurb: type indexed by project,
-        }
-      - {
-          title: Typewolf,
-          url: https://www.typewolf.com,
-          tags: [reference],
-          blurb: fonts spotted in the wild,
-        }
+      - title: Fonts In Use
+        url: https://fontsinuse.com
+        tags: [reference]
+        blurb: type indexed by project
+      - title: Typewolf
+        url: https://www.typewolf.com
+        tags: [reference]
+        blurb: fonts spotted in the wild
