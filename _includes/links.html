@@ -12,10 +12,11 @@ Renders one category from _data/<cat>.yml: each subcategory as an <h2>
     <ul class="link-list">
       {% for link in sub.links %}
       <li class="link">
-        <a class="link-title" href="{{ link.url }}">{{ link.title }}</a>
-        <span class="blurb">{{ link.blurb }}</span>
-        {% if link.tags %}<span class="tags">{% for t in link.tags %}<span class="tag">{{ t }}</span>{% endfor
-          %}</span>{% endif %}
+        <a class="link-card" href="{{ link.url }}">
+          <span class="link-title">{{ link.title }}</span>
+          <span class="blurb">{{ link.blurb }}</span>
+          {% if link.tags %}<span class="tags">{% for t in link.tags %}<span class="tag">{{ t }}</span>{% endfor %}</span>{% endif %}
+        </a>
       </li>
       {% endfor %}
     </ul>
