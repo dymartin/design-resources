@@ -1,17 +1,10 @@
 {% comment %}
-  Renders one category from _data/<cat>.yml: a subsection jump-list, then each
-  subcategory as an <h2> with its link rows. Authoring stays in YAML — this is
-  the only template that touches link data.
+  Renders one category from _data/<cat>.yml: each subcategory as an <h2>
+  (picked up by the theme's table of contents) with its link rows.
+  Authoring stays in YAML — this is the only template that touches link data.
   Usage: {% include links.html cat="typography" %}
 {% endcomment %}
 {% assign cat = site.data[include.cat] %}
-
-<nav class="onthispage" aria-label="On this page">
-  <span class="onthispage-label">Jump to</span>
-  {% for sub in cat.subcategories %}
-    <a href="#{{ sub.name | slugify }}">{{ sub.name }}</a>
-  {% endfor %}
-</nav>
 
 {% for sub in cat.subcategories %}
   <h2 id="{{ sub.name | slugify }}">{{ sub.name }}</h2>

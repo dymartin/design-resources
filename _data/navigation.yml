@@ -1,0 +1,4 @@
+# Minimal Mistakes sidebar nav. Add a category = add a line here.
+docs:
+  - title: Typography
+    url: /typography/
