@@ -1,24 +1,25 @@
 {% comment %}
-  Renders one category from _data/<cat>.yml: each subcategory as an <h2>
-  (picked up by the theme's table of contents) with its link rows.
-  Authoring stays in YAML — this is the only template that touches link data.
-  Usage: {% include links.html cat="typography" %}
-{% endcomment %}
-{% assign cat = site.data[include.cat] %}
+Renders one category from _data/<cat>.yml: each subcategory as an <h2>
+    (picked up by the theme's table of contents) with its link rows.
+    Authoring stays in YAML — this is the only template that touches link data.
+    Usage: {% include links.html cat="typography" %}
+    {% endcomment %}
+    {% assign cat = site.data[include.cat] %}
 
-{% for sub in cat.subcategories %}
-  <h2 id="{{ sub.name | slugify }}">{{ sub.name }}</h2>
-  {% if sub.links and sub.links.size > 0 %}
+    {% for sub in cat.subcategories %}
+    <h2 id="{{ sub.name | slugify }}">{{ sub.name }}</h2>
+    {% if sub.links and sub.links.size > 0 %}
     <ul class="link-list">
       {% for link in sub.links %}
-        <li class="link">
-          <a class="link-title" href="{{ link.url }}">{{ link.title }}</a>
-          <span class="blurb">{{ link.blurb }}</span>
-          {% if link.tags %}<span class="tags">{% for t in link.tags %}<span class="tag">{{ t }}</span>{% endfor %}</span>{% endif %}
-        </li>
+      <li class="link">
+        <a class="link-title" href="{{ link.url }}">{{ link.title }}</a>
+        <span class="blurb">{{ link.blurb }}</span>
+        {% if link.tags %}<span class="tags">{% for t in link.tags %}<span class="tag">{{ t }}</span>{% endfor
+          %}</span>{% endif %}
+      </li>
       {% endfor %}
     </ul>
-  {% else %}
+    {% else %}
     <p class="empty">— no links yet —</p>
-  {% endif %}
-{% endfor %}
+    {% endif %}
+    {% endfor %}
