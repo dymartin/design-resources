@@ -1,0 +1,18 @@
+title: 3D
+subcategories:
+  - name: Models and assets
+    links:
+      - title: Poly Haven
+        url: https://polyhaven.com/
+        blurb: Open source models.
+      - title: The Models Resource
+        url: https://models.spriters-resource.com/
+        blurb: Video game rips.
+      - title: Kenney
+        url: https://kenney.nl/
+        blurb: "Free game assets — 2D, 3D, UI, textures."
+  - name: Rigging and animation
+    links:
+      - title: Mixamo
+        url: https://www.mixamo.com/
+        blurb: Auto rigging and animation.

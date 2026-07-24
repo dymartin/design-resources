@@ -1,5 +1,11 @@
 # Ordered category index. Each key maps to _data/<key>.yml and a page at /<key>/.
 # Add a category: create _data/<key>.yml, add an entry here, add <key>.html.
-- key: typography
-  title: Typography
-  blurb: Foundries, pairing tools, and specimens.
+- key: 3d
+  title: 3D
+  blurb: Models, assets and animation tools.
+- key: colour
+  title: Colour
+  blurb: Tools for choosing and managing colours.
+- key: fonts
+  title: Fonts
+  blurb: Typefaces and references.

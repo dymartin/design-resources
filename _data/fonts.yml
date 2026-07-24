@@ -1,0 +1,33 @@
+title: Fonts
+subcategories:
+  - name: Libraries
+    links:
+      - title: Google Fonts
+        url: https://fonts.google.com
+        blurb: Open licensed typefaces.
+      - title: Fontesk
+        url: https://fontesk.com/
+        blurb: "Free fonts, licence stated per family."
+      - title: Uncut
+        url: https://uncut.wtf/
+        blurb: "Curated open source type, heavy on the contemporary."
+      - title: Fontshare
+        url: https://www.fontshare.com/
+        blurb: Free-for-commercial-use families from Indian Type Foundry.
+      - title: Velvetyne
+        url: https://www.velvetyne.fr/
+        blurb: Libre type foundry with an experimental streak.
+      - title: I Love Typography Fonts
+        url: https://fonts.ilovetypography.com/
+        blurb: Curated retail foundry catalogue. Paid.
+  - name: Inspiration
+    links:
+      - title: Typewolf
+        url: https://www.typewolf.com/
+        blurb: "Type in the wild, with the fonts identified."
+      - title: Fonts In Use
+        url: https://fontsinuse.com/
+        blurb: "Archive of typography in print, signage and screen."
+      - title: Shader Lab
+        url: https://eng.basement.studio/tools/shader-lab
+        blurb: Shader playground for building animated text effects.
