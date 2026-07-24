@@ -1,0 +1,5 @@
+# Ordered category index for the home page. Each key maps to _data/<key>.yml
+# and a page at /<key>/.
+# Add a category: create _data/<key>.yml, add an entry here, add <key>.md.
+- key: typography
+  title: Typography

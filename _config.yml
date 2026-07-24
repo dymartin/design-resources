@@ -1,0 +1,17 @@
+title: Design Resources
+description: A personal directory of design resources.
+baseurl: /design-resources
+url: https://dymartin.github.io
+
+# just-the-docs via remote theme — GitHub Pages builds it natively (no CI).
+remote_theme: just-the-docs/just-the-docs
+color_scheme: dark
+search_enabled: false
+
+plugins:
+  - jekyll-remote-theme
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock

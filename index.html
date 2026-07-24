@@ -1,29 +1,17 @@
-<!doctype html>
-<html lang="en" data-theme="dark">
+---
+title: Home
+layout: default
+nav_order: 0
+permalink: /
+---
+<p class="home-blurb">The tools I actually reach for — a personal directory.</p>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="dark">
-  <title>Design Resources</title>
-  <link rel="stylesheet" href="assets/vendor/pico.classless.min.css">
-  <link rel="stylesheet" href="assets/css/theme.css">
-  <script defer src="assets/js/nav.js"></script>
-</head>
-
-<body>
-  <nav id="sidebar" aria-label="Site navigation"></nav>
-
-  <main>
-    <h1>Design Resources</h1>
-    <p class="lede">Tools and references.</p>
-
-    <h2>Resources</h2>
-
-    <!-- build:cards -->
-    <!-- /build:cards -->
-
-  </main>
-</body>
-
-</html>
+<ul class="cat-cards">
+  {% for c in site.data.categories %}
+    <li class="cat-card">
+      <a href="{{ c.key | prepend: '/' | append: '/' | relative_url }}">
+        <span class="cat-card-title">{{ c.title }}</span>
+      </a>
+    </li>
+  {% endfor %}
+</ul>
