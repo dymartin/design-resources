@@ -1,0 +1,30 @@
+{% comment %}
+  Data-driven sidebar (replaces the old Node build + nav.js DOM generation).
+  Loops _data/categories.yml; the active category expands to its subsection
+  anchors from _data/<key>.yml. Markup matches theme.css's #sidebar contract.
+{% endcomment %}
+<nav id="sidebar" aria-label="Site navigation">
+  <p class="brand"><strong>{{ site.title }}</strong></p>
+  <a class="home-link" href="{{ '/' | relative_url }}"{% if page.url == "/" %} aria-current="page"{% endif %}>Home</a>
+
+  <h2>Resources</h2>
+  <ul data-depth="1">
+    {% for c in site.data.categories %}
+      {% assign cat_url = c.key | prepend: "/" | append: "/" %}
+      {% assign is_active = false %}
+      {% if page.url == cat_url %}{% assign is_active = true %}{% endif %}
+      <li>
+        <a href="{{ cat_url | relative_url }}"{% if is_active %} aria-current="page"{% endif %}>{{ c.title }}</a>
+        {% if is_active %}
+          {% assign cat_data = site.data[c.key] %}
+          <ul data-depth="2">
+            {% for sub in cat_data.subcategories %}
+              {% assign anchor = sub.name | slugify %}
+              <li><a href="#{{ anchor }}" data-hash="#{{ anchor }}">{{ sub.name }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

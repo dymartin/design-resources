@@ -3,36 +3,8 @@ description: A personal directory of design resources.
 baseurl: /design-resources
 url: https://dymartin.github.io
 
-# Minimal Mistakes via remote theme. GitHub Pages builds it natively (no CI):
-# jekyll-remote-theme + jekyll-include-cache are both on the Pages allowlist.
-remote_theme: mmistakes/minimal-mistakes   # pin to @x.y.z once happy
-minimal_mistakes_skin: dark
-
-atom_feed:
-  hide: true   # no RSS feed link in footer/head
-
-plugins:
-  - jekyll-remote-theme
-  - jekyll-include-cache
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-sitemap
-
-# Sensible defaults so category pages need almost no front matter.
-defaults:
-  - scope:
-      path: ""
-    values:
-      layout: single
-      author_profile: false
-      read_time: false
-      comments: false
-      share: false
-      related: false
-      sidebar:
-        nav: docs
-      toc: true
-      toc_sticky: true
+# No theme, no plugins, no CI. Jekyll renders _layouts/default over _data/*.yml,
+# GitHub Pages builds it natively. The only dependency is a vendored Pico file.
 
 exclude:
   - README.md

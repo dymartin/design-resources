@@ -1,0 +1,25 @@
+{% comment %}
+Renders one category from _data/<cat>.yml as the old .cards list: each
+  subcategory an <h2>, each link a bordered card row (title + mono host + desc).
+    Host is derived from the URL, so the YAML only stores title/url/tags/blurb.
+    Usage: {% include cards.html cat="typography" %}
+    {% endcomment %}
+    {% assign cat = site.data[include.cat] %}
+
+    {% for sub in cat.subcategories %}
+    <h2 id="{{ sub.name | slugify }}">{{ sub.name }}</h2>
+    {% if sub.links and sub.links.size > 0 %}
+    <ul class="cards">
+      {% for link in sub.links %}
+      {% assign host = link.url | split: "://" | last | split: "/" | first | remove_first: "www." %}
+      <li><a class="card" href="{{ link.url }}" rel="noopener">
+          <span class="title">{{ link.title }}</span><span class="host">{{ host }}</span>
+          <span class="desc">{{ link.blurb }}{% if link.tags %} <span class="card-tags">{% for t in link.tags %}<span
+                class="tag">{{ t }}</span>{% endfor %}</span>{% endif %}</span>
+        </a></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="empty">— no links yet —</p>
+    {% endif %}
+    {% endfor %}

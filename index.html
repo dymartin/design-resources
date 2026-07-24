@@ -1,16 +1,17 @@
 ---
-title: Home
+layout: default
 permalink: /
-toc: false
+title: Home
 ---
-<p class="home-blurb">A personal directory of design resources</p>
+<h1>Design Resources</h1>
+<p class="lede">The tools I actually reach for.</p>
 
-<ul class="cat-cards">
+<h2>Resources</h2>
+<ul class="cards">
   {% for c in site.data.categories %}
-  <li class="cat-card">
-    <a href="{{ c.key | prepend: '/' | append: '/' | relative_url }}">
-      <span class="cat-card-title">{{ c.title }}</span>
-    </a>
-  </li>
+  <li><a class="card" href="{{ c.key | prepend: '/' | append: '/' | relative_url }}">
+      <span class="title">{{ c.title }}</span>
+      <span class="desc">{{ c.blurb }}</span>
+    </a></li>
   {% endfor %}
 </ul>

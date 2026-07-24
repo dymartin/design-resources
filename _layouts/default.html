@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>{% if page.title and page.url != "/" %}{{ page.title }} — {% endif %}{{ site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/vendor/pico.classless.min.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/theme.css' | relative_url }}">
+  <script defer src="{{ '/assets/js/nav.js' | relative_url }}"></script>
+</head>
+
+<body>
+  {% include sidebar.html %}
+  <main>
+    {{ content }}
+  </main>
+</body>
+
+</html>
